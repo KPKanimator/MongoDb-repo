@@ -18,7 +18,7 @@ Becuase of that, we've put together a series of documents designed to get you pr
 
 ### Mongo Query Language
 
-- [CRUD](exercises/../01_basic-mongo-queries.md):  Basic **Create**, **Read**, **Update** and **Delete** operations with a focus on getting you accustomed to a new style of writing queries.
+- [CRUD](../exercises/01_basic-mongo-queries.md):  Basic **Create**, **Read**, **Update** and **Delete** operations with a focus on getting you accustomed to a new style of writing queries.
 
 
 ### Using MongoDB and C#
