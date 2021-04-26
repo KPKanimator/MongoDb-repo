@@ -1,37 +1,32 @@
-## Welcome to GitHub Pages
+![image](https://github.com/KPKanimator/MongoDb-repo/blob/main/src/mongo-logo.png)
 
-You can use the [editor on GitHub](https://github.com/KPKanimator/MongoDb-repo/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+# MongoDB
+MongoDB is the fifth most popular database engine at the time of writing according to [db-engines](https://db-engines.com/en/ranking_trend).  As you can guess, this means the probability that you encounter MongoDB is quite high.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**Why is this?**
 
-### Markdown
+MongoDB provides a simple model based on documents that is easy for developers to learn and use.  It does so while continuing to meet the most complex requirements at scale.  Mongo officially supports drivers in over 10 languages, and has a flourishing community that has built dozens more.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Becuase of that, we've put together a series of documents designed to get you primed to use MongoDB using the Mongo Query Language as well as Python.
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+## Let's Get Started
 
-- Bulleted
-- List
+### Getting Your Data Into MongoDB
 
-1. Numbered
-2. List
+- [Importing Data](exercises/00_importing-data-into-mongo.md):  Learn how to import existing `.JSON` and `.CSV` files into MongoDB using the `mongoimport` command line utility.
 
-**Bold** and _Italic_ and `Code` text
+### Mongo Query Language
 
-[Link](url) and ![Image](src)
-```
+- [CRUD](exercises/01_basic-mongo-queries.md):  Basic **Create**, **Read**, **Update** and **Delete** operations with a focus on getting you accustomed to a new style of writing queries.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+### Using MongoDB and C#
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/KPKanimator/MongoDb-repo/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+---
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Can't Get Enough?
+If want to learn more about MongoDB consider enrolling in [free training](https://university.mongodb.com/) provided through the MongoDB University!
+
+
