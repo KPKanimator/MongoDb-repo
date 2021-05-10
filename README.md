@@ -20,6 +20,8 @@ Becuase of that, we've put together a series of documents designed to get you pr
 
 - [CRUD](exercises/01_basic-mongo-queries.md):  Basic **Create**, **Read**, **Update** and **Delete** operations with a focus on getting you accustomed to a new style of writing queries.
 
+- [Intermediate Querying](exercises/02_intermediate-mongo-queries.md):  Exercises that will walk you through more advanced use cases for **Read** operations.
+
 
 ### Using MongoDB and C#
 
