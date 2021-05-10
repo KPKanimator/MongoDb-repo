@@ -12,15 +12,19 @@ Becuase of that, we've put together a series of documents designed to get you pr
 
 ## Let's Get Started
 
+- Lab1 - Howto install&use MongoDB
+
 ### Getting Your Data Into MongoDB
 
-- [Importing Data](exercises/00_importing-data-into-mongo.md):  Learn how to import existing `.JSON` and `.CSV` files into MongoDB using the `mongoimport` command line utility.
+- Lab2 - [Importing Data](exercises/00_importing-data-into-mongo.md):  Learn how to import existing `.JSON` and `.CSV` files into MongoDB using the `mongoimport` command line utility.
 
 ### Mongo Query Language
 
-- [CRUD](exercises/01_basic-mongo-queries.md):  Basic **Create**, **Read**, **Update** and **Delete** operations with a focus on getting you accustomed to a new style of writing queries.
+- Lab3 -[CRUD](exercises/01_basic-mongo-queries.md):  Basic **Create**, **Read**, **Update** and **Delete** operations with a focus on getting you accustomed to a new style of writing queries.
 
-- [Intermediate Querying](exercises/02_intermediate-mongo-queries.md):  Exercises that will walk you through more advanced use cases for **Read** operations.
+- Lab4 - [Intermediate Querying](exercises/02_intermediate-mongo-queries.md):  Exercises that will walk you through more advanced use cases for **Read** operations.
+
+- Lab5 - [Advanced Querying](exercises/03_advanced-mongo-queries.md):  This collection of exercises builds on the previous two and really readies you to leverage the aggregate pipeline when making MongoDB queries.  Learn to harness the flexibility and power behind this unique database.
 
 
 ### Using MongoDB and C#
