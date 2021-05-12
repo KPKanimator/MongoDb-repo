@@ -14,7 +14,6 @@ db.<collection_name>.aggregate([
 ```
 
 ### The "$group" operator
-
 The `$group` operator groups the documents by an identifier specified by `_id` field, and based on that distinct grouping, performs an agggregation like `$sum` and returns the resulting documents. 
 
 [Read more](https://docs.mongodb.com/manual/reference/operator/aggregation/group/) :book: about **$group**. 
