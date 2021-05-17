@@ -4,6 +4,8 @@ C# applications connected to a MongoDB database use the MongoDB .NET driver. To 
 
 [Read more](https://developer.mongodb.com/how-to/transactions-c-dotnet/) :book: about the C# applications connected to a MongoDB. 
 
+![image](https://github.com/KPKanimator/MongoDb-repo/blob/main/src/04-01_driverdownload.png)
+
 :arrow_right: Make sure you choose the latest version (>=2.7) of the driver, and press Install. 
 
 Prior to MongoDB version 4.0, MongoDB was transactionally consistent at the document level. These existing atomic single-document operations provide the transaction semantics to meet the data integrity needs of the majority of applications. This is because the flexibility of the document model allows developers to easily embed related data for an entity as arrays and sub-documents within a single, rich document. That said, there are some cases where splitting the content into two or more collections would be appropriate, and for these cases, multi-document ACID transactions makes it easier than ever for developers to address the full spectrum of use cases with MongoDB. For a deeper discussion on MongoDB document model design, including how to represent one-to-many and many-to-many relationships, check out this article on data model design.
@@ -131,7 +133,9 @@ namespace MongoDBTransaction
 }
 ```
 
-##Key points:
+![image](https://github.com/KPKanimator/MongoDb-repo/blob/main/src/04-02_ExecutionResults.png)
+
+#Key points:
 
 - You don't have to match class properties to JSON objects - just define a class object and insert it directly into the database. There is no need for an Object Relational Mapper (ORM) layer.
 - MongoDB transactions use snapshot isolation meaning only the client involved in the transactional session sees any changes until such time as the transaction is committed.

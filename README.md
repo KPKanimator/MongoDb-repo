@@ -29,7 +29,7 @@ Becuase of that, we've put together a series of documents designed to get you pr
 
 ### Using MongoDB and C#
 
-- Lab5 - [C# applications connected to a MongoDB](exercises/04_csharp-applications.md) Working with MongoDB Transactions with C# and the .NET Framework
+- Lab6 - [C# applications connected to a MongoDB](exercises/04_csharp-applications.md) Working with MongoDB Transactions with C# and the .NET Framework
 
 ---
 
