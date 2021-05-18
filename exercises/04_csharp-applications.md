@@ -135,7 +135,7 @@ namespace MongoDBTransaction
 
 ![image](https://github.com/KPKanimator/MongoDb-repo/blob/main/src/04-02_ExecutionResults.png)
 
-#Key points:
+## Key points:
 
 - You don't have to match class properties to JSON objects - just define a class object and insert it directly into the database. There is no need for an Object Relational Mapper (ORM) layer.
 - MongoDB transactions use snapshot isolation meaning only the client involved in the transactional session sees any changes until such time as the transaction is committed.
