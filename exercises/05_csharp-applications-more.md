@@ -1,48 +1,48 @@
-# Установка драйвера и подключение к базе данных
-Фреймворк .NET и в частности язык C# благодаря наличию драйвера также могут работать с MongoDB. Исходные файлы драйвера, а также разную необходимую информацию, например, что добавлено в новой версии, какие были сделаны улучшения и т.д., все это можно найти на странице на гитхабе: https://github.com/mongodb/mongo-csharp-driver/releases. Оттуда можно загрузить исходный код драйвера, либо его бинарные файлы.
-Но для установки всех необходимых файлов и библиотек драйвера в проект проще использовать пакетный менеджер NuGet:
+# Installing the driver and connecting to the database
+The .NET framework and in particular the C # language, thanks to the presence of the driver, can also work with MongoDB. The source files of the driver, as well as various necessary information, for example, what was added in the new version, what improvements were made, etc., all this can be found on the page on the [github](https://github.com/mongodb/mongo-csharp-driver/releases). From there you can download the driver source code or its binaries.
+But it is easier to use the NuGet package manager to install all the required driver files and libraries into the project:
   
-Текущей версией драйвера является версия 2.4. Версию следует учитывать при работе, так как функционал отдельных версий может отличаться.
-Итак, возьмем простой консольный проект на C# и через NuGet установим в него пакет драйвера MongoDB.
-И после этого в проект будет добавлен ряд библиотек: MongoDB.BSON.dll, MongoDB.Driver и MongoDB.Driver.Core:
-  
-Библиотека MongoDB.BSON.dll содержит код документы и значения BSON, а также код для сопоставления документов BSON с объектами классов на C#.
-Библиотека MongoDB.Driver.Core.dll содержит функционал для подключения к серверу.
-Библиотека MongoDB.Driver.dll представляет легковесную обертку для взаимодействия кода на C# с сервером MongoDB.
-Затем в коде программы мы можем подключить все необходимые пространства имен:
+The current driver version is version 2.4. The version should be taken into account when working, as the functionality of individual versions may differ.
+So let's take a simple C # console project and install the MongoDB driver package into it via NuGet.
+And after that a number of libraries will be added to the project: MongoDB.BSON.dll, MongoDB.Driver and MongoDB.Driver.Core:
+- The MongoDB.BSON.dll library contains document code and BSON values, as well as code for mapping BSON documents to C # class objects.
+- The MongoDB.Driver.Core.dll library contains functionality for connecting to the server.
+- The MongoDB.Driver.dll library provides a lightweight wrapper for interoperating C # code with a MongoDB server.
+
+Then, in the program code, we can include all the necessary namespaces:
 ```using MongoDB.Bson;
 using MongoDB.Driver;
 ```
-## Подключение к базе данных
-Для подключения к базе данных необходимо использовать ряд классов:
-      string connectionString = "mongodb://localhost:27017"; // адрес сервера
-      MongoClient client = new MongoClient(connectionString);
-      IMongoDatabase database = client.GetDatabase("test");
-Для установки подключения первым делом нам надо использовать класс MongoClient, в конструктор которого надо передать строку подключения:
-      string connectionString = "mongodb://localhost:27017"; // адрес сервера
-      MongoClient client = new MongoClient(connectionString);
-Строка подключения имеет следующий вид: mongodb://[username:password@]hostname[:port][/[database][?options]]. Например, при указании всех параметров строка подключения могла бы выглядеть так: mongodb://user:pass@localhost/db1?authSource=userDb - в данном случае пользователь с логином user и паролем pass подключается к базе данных db1 на хосте localhost. Кроме того, также задается дополнительный параметр authSource со значением userDb.
-Если порт не указан, то по умолчанию используется порт 27017.
-После получения клиента с его помощью мы можем уже непосредственно обращаться к конкретным базам данных. Для получения базы данных применяется метод GetDatabase, в который передается название базы. Этот метод возвращает объект IMongoDatabase:
-      IMongoDatabase database = client.GetDatabase("test");
-В данном случае идет получение ссылки на базу данных test, которая имеется в пакете mongodb по умолчанию. Получив объект базы данных, мы можем обращаться к конкретным коллекциям и проводить различные операции с данными.
-После выполнения всех необходимых операций нам необязательно закрывать подключение, как, например, в случае с подключениями к другим базам данных, так как MongoDB сама выполнит всю работу.
+## MongoDB Database connection
+To connect to the database, you need to use a number of classes:
+```string connectionString = "mongodb://localhost:27017"; // адрес сервера
+MongoClient client = new MongoClient(connectionString);
+IMongoDatabase database = client.GetDatabase("test");
+```
+To establish a connection, first of all we need to use the MongoClient class, in the constructor of which we need to pass the connection string:
+```string connectionString = "mongodb://localhost:27017"; // server address
+MongoClient client = new MongoClient(connectionString);
+```
+The connection string looks like this: mongodb://[username:password@]hostname[:port][/[database][?options]]. 
+For example, if all parameters were specified, the connection string might look like this: mongodb://user:pass@localhost/db1?authSource=userDb - here, a user with username user and password pass connects to the db1 database on the localhost host. In addition, an additional authSource parameter is also set with the value userDb.
+If no port is specified, the default is 27017.
+After receiving a client with his help, we can already directly access specific databases. To get the database, the GetDatabase method is used, into which the name of ```IMongoDatabase database = client.GetDatabase("test");```
+In this case, we are getting a link to the test database, which is available in the mongodb package by default. Having received a database object, we can access specific collections and perform various operations with the data.
+After completing all the necessary operations, we do not need to close the connection, as, for example, in the case of connections to other databases, since MongoDB itself will do all the work.
 
-# Строки подключения в файлах конфигураций
-Кроме жесткого кодирования строк подключения в коде можно также их определить в конфигурационных файлах: app.config (для десктопных приложений) и web.config (для веб-приложений) в секции connectionString:
-```  
-<connectionStrings>
+# Connection strings in configuration files
+In addition to hard-coding connection strings in code, you can also define them in configuration files: app.config for desktop applications in the connectionString section:
+```<connectionStrings>
     <add name="MongoDb" connectionString="mongodb://localhost/lab6db" />
 </connectionStrings>
 ```
-Атрибут connectionString устанавливает параметры подключения, в частности сервер - тот же localhost и название базы данных - lab6db.
-Тогда на стороне сервера получение строки подключения из файла будет выглядеть так:
+The connectionString attribute sets the connection parameters, in particular the server is the same localhost and the name of the database is lab6db.
+Then, on the server side, getting the connection string from the file will look like this:
 ```
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-
 
 namespace Lab6
 {
@@ -56,10 +56,10 @@ namespace Lab6
       var client = new MongoClient(connectionString);
       ...
 ```
-Для использования класса ConfigurationManager необходимо добавить в проект библиотеку System.Configuration.dll:
+To use the ConfigurationManager class, you need to add the System.Configuration.dll library to the project:
  
- Получение всех бд с сервера
-Создадим небольшое консольное приложение, которое будет выводить на экран все базы данных сервера:
+### Retrieving all databases from the server
+Let's create a small console application that will display all the databases on the server:
 ```
 using System;
 using System.Configuration;
@@ -94,7 +94,7 @@ namespace Lab6
   }
 }
 ```
-В этом случае в файле App.config должно быть прописано определение строки подключения:
+In this case, the connection string definition must be written in the App.config file:
 ```
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
@@ -106,10 +106,10 @@ namespace Lab6
   </connectionStrings>
 </configuration>
 ```
-## Взаимодействие с коллекцией. Документы
-Подобно тому, как в обычных реляционных СУБД мы проходим несколько уровней при взаимодействии с сервером базы данных (сервер БД - > база данных -> таблица), так и при взаимодействии с MongoDB мы также проходим несколько уровней:
+## Interacting with the collection. Documentation
+Just as in conventional relational DBMS we go through several levels when interacting with the database server (DB server -> database -> table), so when interacting with MongoDB we also go through several levels:
   
-Ранее мы рассмотрели получение ссылки на базу данных с помощью объекта IMongoDatabase. Данные в базе данных хранятся в коллекциях, которые представлены объектом IMongoCollection. Например, получим все коллекции всех баз данных, которые имеются на сервере:
+Earlier we looked at getting a reference to a database using the IMongoDatabase object. The data in the database is stored in collections, which are represented by an IMongoCollection object. For example, let's get all the collections of all databases that are available on the server:
 
 ```private static async Task GetCollectionsNamesAsync(MongoClient client)
 {
@@ -135,17 +135,16 @@ namespace Lab6
   }
 }
 ```
-На скриншоте видно, что у меня есть база данных test, в которой имеется коллекция users. И чтобы непосредственно получить эту коллекцию, можно использовать метод GetCollection, который возвращает объект IMongoCollection:
+The screenshot shows that I have a test database that has a users collection. And to get this collection directly, you can use the GetCollection method, which returns an IMongoCollection object:
 ```MongoClient client = new MongoClient(connectionString);
 IMongoDatabase database = client.GetDatabase("test");
 IMongoCollection<BsonDocument> col = database.GetCollection<BsonDocument>("users");
 ```
-Каждый объект IMongoCollection типизирован типом BsonDocument, который представляет собой документ. А саму коллекцию можно представлять как набор документов BsonDocument.
+Each IMongoCollection object is typed with the BsonDocument type, which is a document. And the collection itself can be thought of as a collection of BsonDocument documents.
 ### BsonDocument
-Так как MongoDB представляет документо-ориентированные базы данных, то все данные в ней хранятся в виде документов. Таким образом, база данных состоит из коллекций, а коллекции - из документов. Каждый документ представляет набор пар элементов ключ-значение наподобие словаря и представлен классом BsonDocument из пространства имен MongoDB.BSON.
-Набор данных в документе находится в формате bson, который близок к формату json. Например, стандартный документ:
-```
-{
+Since MongoDB is a document-oriented database, all data in it is stored as documents. Thus, the database is made up of collections and the collection is made up of documents. Each document represents a set of key-value element pairs like a dictionary and is represented by the BsonDocument class from the MongoDB.BSON namespace.
+The dataset in the document is in bson format, which is close to json format. For example, a standard document:
+```{
     "name": "Bill",
     "surname": "Gates",
     "age": "48",
@@ -156,38 +155,39 @@ IMongoCollection<BsonDocument> col = database.GetCollection<BsonDocument>("users
         }
 }
 ```
-Каждая пара ключ-значение, то есть отдельный элемент в документе, например, "name": "Bill", представляет класс BsonElement, а каждое отдельное значение (в данном случае строка "Bill") - класс BsonValue
-Хотя на самом деле напрямую работа будет вестись через классы-наследники BsonValue: BsonDouble, BsonString, BsonInt32, BsonBoolean и ряд других.
-## Операции преобразования типов
-Класс BsonValue содержит ряд свойств, которые позволяют преобразовать тип его значения в один из типов C#. Все эти свойства образованы по шаблону As[Тип]. Некоторые из них:
-•	AsByteArray: преобразует тип в массив байтов byte[]
-•	AsDateTime: преобразует элемент в объект DateTime
-•	AsDouble: преобразует элемент в объект Double
-•	AsGuid: преобразует элемент в объект Guid
-•	AsInt32: преобразует элемент в объект int
-•	AsInt64: преобразует элемент в объект long
-•	AsString: преобразует элемент в объект string
-•	AsObjectId: преобразует элемент в объект ObjectId
-Например, совершим переход от BsonInt32 к стандартному типу int:
+Each key-value pair, that is, an individual element in the document, such as "name": "Bill", represents a BsonElement class, and each individual value (in this case, the string "Bill") represents a BsonValue class
+Although, in fact, the work will be carried out directly through the inherited classes of BsonValue: BsonDouble, BsonString, BsonInt32, BsonBoolean and a number of others.
+## Type conversion operations
+The BsonValue class contains a number of properties that allow you to convert the type of its value to one of the C # types. All of these properties follow the As [Type] pattern. 
+Some of them:
+• AsByteArray: converts the type to a byte array []
+• AsDateTime: converts the item to a DateTime object
+• AsDouble: converts the element to a Double object
+• AsGuid: converts the item to a Guid object
+• AsInt32: converts an element to an int object
+• AsInt64: converts an element to a long object
+• AsString: converts the element to a string object
+• AsObjectId: converts the item to an ObjectId
+For example, let's make the transition from BsonInt32 to the standard int type:
 ```
 BsonValue bv = new BsonInt32(20);
 int i = bv.AsInt32;
 ```
-В то же время не всегда можно провести преобразования, как например, в следующем случае:
+At the same time, it is not always possible to carry out transformations, such as in the following case:
 ```
 BsonValue bv = new BsonInt32(20);
 ObjectId ob = bv.AsObjectId;
 ```
-В этом случае среда сгенерирует исключение типа InvalidCastException.
-Перед приведением можно использовать одно из свойств, показывающее, можно ли преобразовать тип объекта в другой тип. Подобные свойства образованы по шаблону Is[Тип] и в случае возможности преобразования типа объекта к типу [Тип], возвращают значение true. Некоторые из этих свойств:
-•	IsDateTime: возвращает true, если элемент представляет тип DateTime
-•	IsDouble: возвращает true, если элемент представляет тип Double
-•	IsGuid: возвращает true, если элемент представляет тип Guid
-•	IsInt32: возвращает true, если элемент представляет тип int
-•	IsInt64: возвращает true, если элемент представляет тип long
-•	IsString: возвращает true, если элемент представляет тип string
-•	IsObjectId: возвращает true, если элемент представляет тип ObjectId
-Например:
+In this case, the environment will throw an InvalidCastException exception.
+Before casting, you can use one of the properties to indicate whether the type of an object can be converted to another type. Such properties are formed by the Is [Type] template and, if it is possible to convert the object type to the [Type] type, return true. Some of these properties:
+• IsDateTime: returns true if the element is of type DateTime
+• IsDouble: returns true if the element is of type Double
+• IsGuid: returns true if the element is of type Guid
+• IsInt32: returns true if the element is of type int
+• IsInt64: returns true if the element is of type long
+• IsString: returns true if the element is of type string
+• IsObjectId: returns true if the element is of type ObjectId
+For example:
 ```
 BsonValue bv = new BsonInt32(20);
 int i=-1;
@@ -198,46 +198,47 @@ ObjectId ob = new ObjectId();
 if (bv.IsObjectId)
     ob= bv.AsObjectId;
 ```
-### Создание документа
-Для создания документа мы можем использовать одну из форм конструктора BsonDocument. Например, создадим пустой документ:
+### Create document
+We can use one of the BsonDocument constructor forms to create the document. For example, let's create an empty document:
 ```
 sonDocument doc = new BsonDocument();
 Console.WriteLine(doc);
 ```
-При выводе на консоль мы получим следующее:
+When outputting to the console, we get the following:
 ```
 { }
 ```
-Теперь создадим документ с одним элементом:
+Now let's create a document with one element:
 ```
 BsonDocument doc = new BsonDocument { {"name","Bill"}};
 Console.WriteLine(doc);
 ```
-И консоль отобразит следующее:
+And the console will display the following:
 ```{ "name" : "Bill"}```
-Теперь выведем на консоль значение поля name:
+Now let's print the value of the name field to the console:
 ```BsonDocument doc = new BsonDocument { { "name", "Bill" } };
  
 Console.WriteLine(doc["name"]);
 // изменим поле name
 doc["name"] = "Tom";
- ```
+
 Console.WriteLine(doc.GetValue("name"));
-Использованные в данном случае способы вывода поля: doc["name"] и doc.GetValue("name") будут равнозначными.
-Так как каждая такая пара ключ-значение представляет элемент BsonElement, то мы могли бы написать и так:
+```
+The methods of field output used in this case: doc ["name"] and doc.GetValue ("name") will be equivalent.
+Since each such key-value pair represents a BsonElement, we could write it like this:
 ```	
 BsonElement bel = new BsonElement("name","Bill");
 BsonDocument doc = new BsonDocument(bel);
 Console.WriteLine(doc);
 ```
-Или использовать метод Add для добавления нового элемента:
+Or use the Add method to add a new item:
 ```
 BsonElement bel = new BsonElement("name","Bill");
 BsonDocument doc = new BsonDocument();
 doc.Add(bel);
 Console.WriteLine(doc);
 ```
-Теперь создадим более сложный по составу элемент:
+Now let's create a more complex element:
 ```      
 BsonDocument doc = new BsonDocument
       {
@@ -254,7 +255,7 @@ BsonDocument doc = new BsonDocument
       };
       Console.WriteLine(doc);
 ```
-И консоль отобразит следующее:
+And the console will display the following:
 ```{
     "name": "Bill",
     "surname": "Gates",
@@ -266,7 +267,7 @@ BsonDocument doc = new BsonDocument
         }
 }
 ```
-И еще пример - добавим в документ массив:
+And another example - let's add an array to the document:
 ```	
 BsonDocument chemp = new BsonDocument();
 chemp.Add("countries", new BsonArray(new[] { "Бразилия", "Аргентина", "Германия", "Нидерланды" }));
@@ -278,9 +279,8 @@ Console.WriteLine(chemp);
     "finished": true
 }
 ```
-
-## Модели данных
-Хотя создание документов можно осуществлять с помощью класса BsonDocument, но намного было бы проще работать напрямую через классы, которые представляют данные. И драйвер MongoDB для C# предоставляет эту возможность. Например, создадим модель данных:
+## Data Models
+Although the creation of documents can be done using the BsonDocument class, it would be much easier to work directly through the classes that represent the data. And the MongoDB driver for C # provides this capability. For example, let's create a data model:
 ```
 using MongoDB.Bson;
 using System.Collections.Generic;
@@ -302,9 +302,9 @@ namespace MongoDBApp
     }
 }
 ```
-Здесь определен класс Person, который представляет человека, и класс Company, который представляет компанию, где работает человек.
-Стоит обратить внимание, что в качестве свойства-идентификатора Id в классе Person используется объект класса ObjectId, который определен в библиотеке MongoDB.Bson.dll.
-Пространство имен MongoDB.Bson добавляет ряд функциональностей к классам C#, которые позволяют использовать объекты этих классов в качестве документов:
+It defines a Person class, which represents a person, and a Company class, which represents the company where the person works.
+It is worth noting that an object of the ObjectId class, which is defined in the MongoDB.Bson.dll library, is used as the Id property in the Person class.
+The MongoDB.Bson namespace adds a number of functionality to C # classes that allows objects of these classes to be used as documents:
 ```
 using System;
 using MongoDB.Bson;
@@ -324,8 +324,8 @@ namespace MongoDBApp
     }
 }
 ```
-Библиотека MongoDB.Bson.dll добавляет ряд методов к классам, в частности метод ToJson, который преобразует объект в формат JSON, а сам объект представляет документ.
-При создании документа мы можем воспользоваться как стандартным классом C#, так и классом BsonDocument, и при необходимости перейти от одного к другому. Например:
+The MongoDB.Bson.dll library adds a number of methods to classes, in particular the ToJson method, which converts an object to JSON format, and the object itself represents a document.
+When creating a document, we can use both the standard C # class and the BsonDocument class, and, if necessary, move from one to the other. For example:
 ```using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -355,17 +355,17 @@ namespace MongoDBApp
     }
 }
 ```
-С помощью метода Deserialize() класса BsonSerializer из пространства имен MongoDB.Bson.Serialization мы можем выполнить десериализацию из документа в объект модели Person. При этом важно, чтобы имена свойств модели совпадали с именами элементов в документе (в том числе и по регистру), иначе программе не удастся сопоставить элементы и свойства.
-Также можно выполнить обратную операцию по преобразованию объекта в BsonDocument:
+Using the Deserialize () method of the BsonSerializer class from the MongoDB.Bson.Serialization namespace, we can deserialize from a document to a Person model object. In this case, it is important that the names of the properties of the model coincide with the names of the elements in the document (including the case), otherwise the program will not be able to match the elements and properties.
+You can also perform the reverse operation to convert an object to a BsonDocument:
 ```
 Person p = new Person { Name = "Bill", Surname = "Gates", Age = 48 };
 p.Company = new Company { Name = "Microsoft"};
 BsonDocument doc = p.ToBsonDocument();
 Console.WriteLine(doc);
 ```
-## Настройка модели с помощью атрибутов
-### Установка Id
-Каждый объект в базе данных имеет поле _id, которое выполняет роль уникального идентификатора объекта. Используя атрибут BsonId мы можем явно установить свойство, которое будет выполнять роль идентификатора:
+## Setting up a model using attributes
+### Setting Id
+Every object in the database has an \_id field, which acts as a unique identifier for the object. Using the BsonId attribute, we can explicitly set a property that will act as an identifier:
 ```
 class Person
 {
@@ -374,8 +374,8 @@ class Person
     public string Name { get; set; }
 }
 ```
-Хотя в данном случае свойство называется PersonId и имеет тип int, при создании документа данное свойство будет представлять в документе поле _id
-Используя атрибуты, мы можем управлять настройкой классов моделей и их сериализацией в документы mongodb. Например:
+Although in this case the property is called PersonId and is of type int, when the document is created, this property will represent the \_id field in the document
+Using attributes, we can control the customization of model classes and their serialization to mongodb documents. For example:
 ```using MongoDB.Bson.Serialization.Attributes;
 ........................................
 class Person
@@ -392,7 +392,7 @@ class Company
     public string Name { get; set; }
 }
 ```
-Атрибут BsonIgnore позволяет не учитывать свойство Surname при сериализации объекта в документ. А атрибут BsonElement позволяет задать настройки элемента для данного свойства. В частности, здесь изменяется название элемента с Name на First Name. Поэтому при создании документа:
+The BsonIgnore attribute allows you to ignore the Surname property when serializing an object to a document. And the BsonElement attribute allows you to set the element settings for this property. In particular, it changes the name of the element from Name to First Name. Therefore, when creating a document:
 ```Person p = new Person { Name = "Bill", Surname = "Gates", Age = 48 };
 p.Company = new Company { Name = "Microsoft"};
              
@@ -407,8 +407,8 @@ Console.WriteLine(p.ToJson());
         }
 }
 ```
-### Игнорирование значений по умолчанию
-В примере выше для объекта Person задается объект Company. Однако в какой-то ситуации для объекта Person данный объект может отсутствовать. Например, человек не работает ни в какой компании. Однако даже если мы не укажем компанию, такой документ все равно будет содержать данный элемент, только у него будет значение null. Чтобы избежать добавление в документ элементов, которые имеют значения, можно использовать атрибут BsonIgnoreIfNull:
+### Ignoring defaults
+The example above sets the Person object to a Company object. However, in some situation for the Person object, this object may not be present. For example, a person does not work for any company. However, even if we do not specify the company, such a document will still contain this element, only it will have a null value. To avoid adding elements that have values to the document, you can use the BsonIgnoreIfNull attribute:
 ```class Person
 {
     public string Name { get; set; }
@@ -419,18 +419,18 @@ Console.WriteLine(p.ToJson());
     public Company Company {get;set;}
 }
 ```
-В этом случае объект:
-1	Person p = new Person { Name = "Bill", Surname = "Gates", Age = 48 };
-будет представлять следующий документ:
+In this case, the object:
+```Person p = new Person { Name = "Bill", Surname = "Gates", Age = 48 };```
+will submit the following document:
 ```{
     "Name": "Bill",
     "Surname": "Gates",
     "Age": 48
 }
 ```
-Так как данный атрибут работает только для свойств, которые могут иметь значение null, то есть ссылочных типов, то он не подходит для объектов значимых типов. Например, нам неизвестен возраст человека: Person p = new Person { Name = "Bill", Surname = "Gates"};. Но даже если мы не указали свойство Age, оно будет присутствовать в документе со значением 0 - то есть значением по умолчанию. Чтобы этого избежать, для свойства Age использован атрибут BsonIgnoreIfDefault.
+Since this attribute works only for properties that can be null, that is, reference types, it is not suitable for objects of value types. For example, we don't know the age of a person: Person p = new Person {Name = "Bill", Surname = "Gates"} ;. But even if we did not specify the Age property, it will be present in the document with a value of 0 - that is, the default value. To avoid this, the BsonIgnoreIfDefault attribute is used for the Age property.
 ### BsonRepresentation
-Еще один атрибут BsonRepresentation отвечает за представление свойства в базе данных. Например:
+Another attribute, BsonRepresentation, is responsible for representing the property in the database. For example:
 ```
 class Person
 {
@@ -441,9 +441,9 @@ class Person
     public int Age { get; set; }
 }
 ```
-В этом случае для свойства Id указывается, что оно будет выполнять роль идентификатора и в базе данных соответствующее поле будет иметь тип ObjectId. А вот свойству целочисленному Age в базе данных будет соответствовать строковое поле Age из-за применения атрибута [BsonRepresentation(BsonType.String)].
+In this case, for the Id property it is indicated that it will act as an identifier and in the database the corresponding field will have the ObjectId type. But the integer Age property in the database will correspond to the string field Age due to the use of the \[BsonRepresentation (BsonType.String)] attribute.
 BsonClassMap
-Для настройки сопоставления классов C# с коллекциями MongoDB можно использовать класс BsonClassMap, который регистрирует принципы сопоставления. Например, возьмем тот же класс Person:
+To customize the mapping of C # classes to MongoDB collections, you can use the BsonClassMap class, which registers the mapping principles. For example, let's take the same Person class:
 ```static void Main(string[] args)
 {
     BsonClassMap.RegisterClassMap<Person>(cm =>
@@ -458,9 +458,9 @@ BsonClassMap
     Console.ReadLine();
 }
 ```
-С помощью метода RegisterClassMap() определяется карта сопоставления объектов Person и BsonDocument. В частности, в данном случае для свойство Name будет сопоставляться с полем name.
-### Конвенции
-Конвенции наряду с атрибутами и BsonClassMap представляют еще один способ определения сопоставления классов и объектов BsonDocument. Конвенции определяются в виде набора - объекта ConventionPack. Этот объект может содержать набор конвенций. Каждая конвенция представляет объект класса, производного от ConventionBase. Например, переведем все ключи в BsonDocument в нижний регистр:
+The RegisterClassMap () method defines a map of the mapping of Person and BsonDocument objects. Specifically, in this case, the Name property will be mapped to the name field.
+### Conventions
+Conventions, along with Attributes and BsonClassMap, provide another way to define a mapping between BsonDocument classes and objects. Conventions are defined as a set - a ConventionPack object. This object can contain a set of conventions. Each convention represents an object of a class derived from ConventionBase. For example, let's lowercase all keys in BsonDocument:
 ```
 using System;
 using MongoDB.Bson;
@@ -485,14 +485,14 @@ namespace MongoDBApp
     }
 }
 ```
-В данном случае применяется конвенция CamelCaseElementNameConvention, которая переводит названия свойства в camel case - имена начинаются со строчной буквы.
-Конвенция добавляется с помощью метода Add() класса ConventionPack. И чтобы она сработала, необходимо вызвать метод ConventionRegistry.Register(), который зарегистрирует конвенцию. Первый параметр метода представляет название конвенции, второй - объект ConventionPack, а третий - условие, при котором применяется конвенция. Здесь в качестве условия просто установлено ключевое слово true, то есть конвенция будет применяться ко всем свойствам.
-В результате при выводе на консоль названия всех ключей в документе будут переведены в нижний регистр:
+In this case, the CamelCaseElementNameConvention convention is used, which translates property names into camel case - names begin with a lowercase letter.
+The convention is added using the Add () method of the ConventionPack class. And for it to work, you need to call the ConventionRegistry.Register () method, which will register the convention. The first parameter of the method is the name of the convention, the second is the ConventionPack object, and the third is the condition under which the convention is applied. Here, the condition is simply set to the keyword true, that is, the convention will apply to all properties.
+As a result, when outputting to the console, the names of all keys in the document will be converted to lowercase:
 ```{"_id" : null, "name" : "Bill", "age" : 48}```
 
-## Сохранение документов в базу данных
+## Saving documents to the database
 
-Для добавления данных в коллекцию используется метод InsertOneAsync, определенный в интерфейсе IMongoCollection. Например, добавим в коллекцию people один документ:
+To add data to the collection, use the InsertOneAsync method defined in the IMongoCollection interface. For example, let's add one document to the people collection:
 ```using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -529,7 +529,7 @@ namespace MongoDBApp
     }
 }
 ```
-Кроме метода InsertOneAsync мы также можем использовать для сохранения документов метод InsertManyAsync(), который в качестве параметра принимает набор объектов:
+In addition to the InsertOneAsync method, we can also use the InsertManyAsync () method to save documents, which takes a set of objects as a parameter:
 ```private static async Task SaveDocs()
 {
     string connectionString = "mongodb://localhost";
@@ -551,7 +551,7 @@ namespace MongoDBApp
     await collection.InsertManyAsync(new []{person1,person2});
 }
 ```
-Однако мы можем работать не только с объектами BsonDocument, но и со стандартными классами C#. Допустим, нам надо сохранить объекты следующих классов:
+However, we can work not only with BsonDocument objects, but also with standard C # classes. Let's say we need to save objects of the following classes:
 ```using MongoDB.Bson;
 using System.Collections.Generic;
  
@@ -571,7 +571,7 @@ namespace MongoDBApp
     }
 }
 ```
-Теперь добавим объект Person в коллекцию people:
+Now let's add the Person object to the people collection:
 
 ```private static async Task SaveDocs()
 {
@@ -592,13 +592,10 @@ namespace MongoDBApp
     await collection.InsertOneAsync(person1);
 }
 ```
-Так как коллекция будет хранить данные типа Person, то она типизируется данным типом: MongoCollection<Person>. В данном случае объекты Person будут выступать в роли документов.
-При добавлении, если для объекта не установлен идентификатор "_id", то он автоматически генерируется. И затем мы его можем получить:
+Since the collection will store data of type Person, it is typed by this type: MongoCollection <Person>. In this case, Person objects will act as documents.
+When added, if the "_id" identifier is not set for the object, then it is automatically generated. And then we can get it:
 ```await collection.InsertOneAsync(person1);
 Console.WriteLine(person1.Id);
 ```
-
-  
-  
-  
+ 
   
