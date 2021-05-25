@@ -30,9 +30,10 @@ using MongoDB.Driver;
 
 # Строки подключения в файлах конфигураций
 Кроме жесткого кодирования строк подключения в коде можно также их определить в конфигурационных файлах: app.config (для десктопных приложений) и web.config (для веб-приложений) в секции connectionString:
-```  <connectionStrings>
+```  
+<connectionStrings>
     <add name="MongoDb" connectionString="mongodb://localhost/lab6db" />
-  </connectionStrings>
+</connectionStrings>
 ```
 Атрибут connectionString устанавливает параметры подключения, в частности сервер - тот же localhost и название базы данных - lab6db.
 Тогда на стороне сервера получение строки подключения из файла будет выглядеть так:
@@ -53,6 +54,7 @@ namespace Lab6
       //MongoClient client = new MongoClient(connectionString);
       string connectionString = ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString;
       var client = new MongoClient(connectionString);
+      ...
 ```
 Для использования класса ConfigurationManager необходимо добавить в проект библиотеку System.Configuration.dll:
  
@@ -89,7 +91,6 @@ namespace Lab6
         }
       }
     }
-
   }
 }
 ```
@@ -110,34 +111,32 @@ namespace Lab6
   
 Ранее мы рассмотрели получение ссылки на базу данных с помощью объекта IMongoDatabase. Данные в базе данных хранятся в коллекциях, которые представлены объектом IMongoCollection. Например, получим все коллекции всех баз данных, которые имеются на сервере:
 
-```
-private static async Task GetCollectionsNamesAsync(MongoClient client)
+```private static async Task GetCollectionsNamesAsync(MongoClient client)
+{
+  using (var cursor = await client.ListDatabasesAsync())
+  {
+    var dbs = await cursor.ToListAsync();
+    foreach (var db in dbs)
     {
-      using (var cursor = await client.ListDatabasesAsync())
+      Console.WriteLine("В базе данных {0} имеются следующие коллекции:", db["name"]);
+
+      IMongoDatabase database = client.GetDatabase(db["name"].ToString());
+
+      using (var collCursor = await database.ListCollectionsAsync())
       {
-        var dbs = await cursor.ToListAsync();
-        foreach (var db in dbs)
+        var colls = await collCursor.ToListAsync();
+        foreach (var col in colls)
         {
-          Console.WriteLine("В базе данных {0} имеются следующие коллекции:", db["name"]);
-
-          IMongoDatabase database = client.GetDatabase(db["name"].ToString());
-
-          using (var collCursor = await database.ListCollectionsAsync())
-          {
-            var colls = await collCursor.ToListAsync();
-            foreach (var col in colls)
-            {
-              Console.WriteLine(col["name"]);
-            }
-          }
-          Console.WriteLine();
+          Console.WriteLine(col["name"]);
         }
       }
+      Console.WriteLine();
     }
+  }
+}
 ```
 На скриншоте видно, что у меня есть база данных test, в которой имеется коллекция users. И чтобы непосредственно получить эту коллекцию, можно использовать метод GetCollection, который возвращает объект IMongoCollection:
-```
-MongoClient client = new MongoClient(connectionString);
+```MongoClient client = new MongoClient(connectionString);
 IMongoDatabase database = client.GetDatabase("test");
 IMongoCollection<BsonDocument> col = database.GetCollection<BsonDocument>("users");
 ```
@@ -599,3 +598,7 @@ namespace MongoDBApp
 Console.WriteLine(person1.Id);
 ```
 
+  
+  
+  
+  
