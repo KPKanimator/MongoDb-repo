@@ -1,13 +1,13 @@
 # Installing the driver and connecting to the database
-The .NET framework and in particular the C # language, thanks to the presence of the driver, can also work with MongoDB. The source files of the driver, as well as various necessary information, for example, what was added in the new version, what improvements were made, etc., all this can be found on the page on the [github](https://github.com/mongodb/mongo-csharp-driver/releases). From there you can download the driver source code or its binaries.
+The .NET framework and in particular the C# language, thanks to the presence of the driver, can also work with MongoDB. The source files of the driver, as well as various necessary information, for example, what was added in the new version, what improvements were made, etc., all this can be found on the page on the [github](https://github.com/mongodb/mongo-csharp-driver/releases). From there you can download the driver source code or its binaries.
 But it is easier to use the NuGet package manager to install all the required driver files and libraries into the project:
   
 The current driver version is version 2.4. The version should be taken into account when working, as the functionality of individual versions may differ.
-So let's take a simple C # console project and install the MongoDB driver package into it via NuGet.
+So let's take a simple C# console project and install the MongoDB driver package into it via NuGet.
 And after that a number of libraries will be added to the project: MongoDB.BSON.dll, MongoDB.Driver and MongoDB.Driver.Core:
-- The MongoDB.BSON.dll library contains document code and BSON values, as well as code for mapping BSON documents to C # class objects.
+- The MongoDB.BSON.dll library contains document code and BSON values, as well as code for mapping BSON documents to C# class objects.
 - The MongoDB.Driver.Core.dll library contains functionality for connecting to the server.
-- The MongoDB.Driver.dll library provides a lightweight wrapper for interoperating C # code with a MongoDB server.
+- The MongoDB.Driver.dll library provides a lightweight wrapper for interoperating C# code with a MongoDB server.
 
 Then, in the program code, we can include all the necessary namespaces:
 ```using MongoDB.Bson;
@@ -443,7 +443,7 @@ class Person
 ```
 In this case, for the Id property it is indicated that it will act as an identifier and in the database the corresponding field will have the ObjectId type. But the integer Age property in the database will correspond to the string field Age due to the use of the \[BsonRepresentation (BsonType.String)] attribute.
 BsonClassMap
-To customize the mapping of C # classes to MongoDB collections, you can use the BsonClassMap class, which registers the mapping principles. For example, let's take the same Person class:
+To customize the mapping of C# classes to MongoDB collections, you can use the BsonClassMap class, which registers the mapping principles. For example, let's take the same Person class:
 ```static void Main(string[] args)
 {
     BsonClassMap.RegisterClassMap<Person>(cm =>
@@ -551,7 +551,7 @@ In addition to the InsertOneAsync method, we can also use the InsertManyAsync ()
     await collection.InsertManyAsync(new []{person1,person2});
 }
 ```
-However, we can work not only with BsonDocument objects, but also with standard C # classes. Let's say we need to save objects of the following classes:
+However, we can work not only with BsonDocument objects, but also with standard C# classes. Let's say we need to save objects of the following classes:
 ```using MongoDB.Bson;
 using System.Collections.Generic;
  
@@ -595,7 +595,7 @@ Now let's add the Person object to the people collection:
 Since the collection will store data of type Person, it is typed by this type: MongoCollection <Person>. In this case, Person objects will act as documents.
 When added, if the "_id" identifier is not set for the object, then it is automatically generated. And then we can get it:
 ```
-\await collection.InsertOneAsync(person1);
+await collection.InsertOneAsync(person1);
 Console.WriteLine(person1.Id);
 ```
  
