@@ -30,8 +30,8 @@ Becuase of that, we've put together a series of documents designed to get you pr
 ### Using MongoDB and C#
 
 - Lab6 - [C# applications connected to a MongoDB](exercises/05_csharp-applications-more.md) Working with MongoDB Transactions with C# and the .NET Framework
-  --	Driver installation and database connection
-  --	Interacting with the collection. Documentation
+--	Driver installation and database connection
+  - Interacting with the collection. Documentation
   --	Working with data models
   --	Customizing the model using attributes
   --	Saving documents to the database
