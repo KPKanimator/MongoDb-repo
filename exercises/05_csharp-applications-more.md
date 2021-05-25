@@ -594,7 +594,8 @@ Now let's add the Person object to the people collection:
 ```
 Since the collection will store data of type Person, it is typed by this type: MongoCollection <Person>. In this case, Person objects will act as documents.
 When added, if the "_id" identifier is not set for the object, then it is automatically generated. And then we can get it:
-```await collection.InsertOneAsync(person1);
+```
+\await collection.InsertOneAsync(person1);
 Console.WriteLine(person1.Id);
 ```
  
