@@ -1,0 +1,7 @@
+{
+	"name" : "mongodb_unit3",
+	"version" : "1.0.0",
+	"dependencies" : {
+		"mongodb" : "^6.9.0"
+	}
+}
