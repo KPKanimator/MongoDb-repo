@@ -6,8 +6,8 @@ const connectionString = "mongodb://localhost:27017";
     let db = connection.db('usersdb');
 
     try{
-        
         const result = await db.collection('users').drop();
+        //const result = await db.dropDatabase();
         console.log(JSON.stringify(result));
     }finally{
         connection.close();
